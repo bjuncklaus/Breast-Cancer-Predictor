@@ -1,6 +1,4 @@
 import pandas as pandas
-import random
-import numpy as np
 
 file = open('datasource/bc.csv', 'r')
 
@@ -11,7 +9,7 @@ df = pandas.DataFrame(pandas.read_csv(file, sep = '\,', engine='python'))
 data_size = len(df)
 
 # The percentage of samples to extract from the df DataFrame
-sample_percentage = 0.2
+sample_percentage = 0.5
 
 # The extracted samples. Note that samples is also a DataFrame
 samples = df.sample(n = sample_percentage * data_size)
@@ -80,4 +78,4 @@ for i in range(len(samples)):
     else:
         print('Output:', "Can't determine")
 
-    print('Total accuracy:', (accuracy / data_size) * 100.0)
+    print('Total accuracy:', (accuracy / data_size) * 100.0, '%')
