@@ -1,4 +1,5 @@
 import pandas as pandas
+import numpy as np
 
 file = open('datasource/bc.csv', 'r')
 
@@ -48,9 +49,13 @@ accuracy = data_size
 
 # Naïve Bayes calculation
 for i in range(len(samples)):
-    print('Total done:', ((i + 1) / len(samples)) * 100.0, '%')
     original_output = df.iloc[i][margin]
-    print('Original output class:', original_output)
+    # print('Original output class:', original_output
+    print()
+    print('########################################################################################')
+    current_sample = df.iloc[i]
+    print(current_sample)
+    print()
     probability_characteristics = 1.0
     probability_ill_defined = 1.0
     probability_well_defined = 1.0
@@ -61,11 +66,9 @@ for i in range(len(samples)):
 
     probability_ill_defined *= df.loc[df[margin] == ill_defined][margin].value_counts().to_dict()[ill_defined]
     probability_ill_defined /= data_size
-    # print('Ill-defined probability:', (probability_ill_defined / probability_characteristics) * 100.0)
 
     probability_well_defined *= df.loc[df[margin] == well_defined][margin].value_counts().to_dict()[well_defined]
     probability_well_defined /= data_size
-    # print('Well-defined probability:', (probability_well_defined / probability_characteristics) * 100.0)
 
     print('Probabilities:', 'Well-defined =', probability_well_defined / 100.0, '%', '|', 'Ill-defined =', probability_ill_defined / 100.0, '%')
     if (probability_ill_defined > probability_well_defined):
@@ -79,6 +82,10 @@ for i in range(len(samples)):
     else:
         print('Output:', "Can't determine")
 
-    print('Total accuracy:', (accuracy / data_size) * 100.0, '%')
+    total_accuracy = (accuracy / data_size) * 100.0
+    print('Total accuracy:', total_accuracy, '%')
+    print('Total done:', ((i + 1) / len(samples)) * 100.0, '%')
+    print('########################################################################################')
 
-print('Pre-calculated accuracy prediction:', (10 - (sample_percentage / 2)) * 100.0)
+pre_calculated_accuracy = (1.0 - (sample_percentage / 2)) * 100.0
+print('Pre-calculated accuracy prediction:', pre_calculated_accuracy, '%', '|', 'Error:', np.abs(pre_calculated_accuracy - total_accuracy), '%')
