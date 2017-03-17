@@ -9,7 +9,7 @@ df = pandas.DataFrame(pandas.read_csv(file, sep = '\,', engine='python'))
 data_size = len(df)
 
 # The percentage of samples to extract from the df DataFrame
-sample_percentage = 0.5
+sample_percentage = 0.2
 
 # The extracted samples. Note that samples is also a DataFrame
 samples = df.sample(n = sample_percentage * data_size)
@@ -50,7 +50,7 @@ accuracy = data_size
 for i in range(len(samples)):
     print('Total done:', ((i + 1) / len(samples)) * 100.0, '%')
     original_output = df.iloc[i][margin]
-    print('Original output:', original_output)
+    print('Original output class:', original_output)
     probability_characteristics = 1.0
     probability_ill_defined = 1.0
     probability_well_defined = 1.0
@@ -67,12 +67,13 @@ for i in range(len(samples)):
     probability_well_defined /= data_size
     # print('Well-defined probability:', (probability_well_defined / probability_characteristics) * 100.0)
 
+    print('Probabilities:', 'Well-defined =', probability_well_defined / 100.0, '%', '|', 'Ill-defined =', probability_ill_defined / 100.0, '%')
     if (probability_ill_defined > probability_well_defined):
-        # print('Predicted output:', ill_defined)
+        print('Predicted output class:', ill_defined)
         if (original_output != ill_defined):
             accuracy -= 1
     elif (probability_ill_defined < probability_well_defined):
-        # print('Predicted output:', well_defined)
+        print('Predicted output class:', well_defined)
         if (original_output != well_defined):
             accuracy -= 1
     else:
