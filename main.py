@@ -80,3 +80,5 @@ for i in range(len(samples)):
         print('Output:', "Can't determine")
 
     print('Total accuracy:', (accuracy / data_size) * 100.0, '%')
+
+print('Pre-calculated accuracy prediction:', (10 - (sample_percentage / 2)) * 100.0)
